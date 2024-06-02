@@ -62,8 +62,11 @@ namespace VetAppointment.UI.Controllers
 
             if (date.Date == DateTime.Now.Date)
             {
-                var currentTime = DateTime.Now.Hour;
-                availableTimes = availableTimes.Where(x => x.Hours > currentTime).ToList();
+                DateTime now = DateTime.Now;
+                DateTime startOfDay = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
+                TimeSpan timePassedToday = now - startOfDay;
+                double totalMinutesToday = timePassedToday.TotalMinutes;
+                availableTimes = availableTimes.Where(x => x.TotalMinutes > totalMinutesToday).ToList();
             }
             else if (date.Date < DateTime.Now.Date)
             {
